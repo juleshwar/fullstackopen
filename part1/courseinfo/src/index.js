@@ -5,16 +5,31 @@ const Header = (props) => {
     return <h1>{props.course}</h1>;
 };
 
+const Part = (props) => {
+    return (
+        <p>
+            {props.part} {props.exercises}
+        </p>
+    );
+};
+
 const Content = (props) => {
-    const template = [];
-    props.contentArray.forEach((contentFragment) => {
-        template.push(
-            <p>
-                {contentFragment.part} {contentFragment.exercises}
-            </p>
-        );
-    });
-    return template;
+    return (
+        <div>
+            <Part
+                part={props.contentArray[0].part}
+                exercise={props.contentArray[0].exercise}
+            />
+            <Part
+                part={props.contentArray[1].part}
+                exercise={props.contentArray[1].exercise}
+            />
+            <Part
+                part={props.contentArray[2].part}
+                exercise={props.contentArray[2].exercise}
+            />
+        </div>
+    );
 };
 const Total = (props) => {
     return <p>Number of exercises {props.totalExercises}</p>;
