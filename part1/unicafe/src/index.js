@@ -1,6 +1,25 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
+const Statistics = ({ values }) => {
+    const { good, bad, neutral } = values;
+    return [
+        <h1>Statistics</h1>,
+        <div>
+            <div>Good: {good}</div>
+            <div>Neutral: {neutral}</div>
+            <div>Bad: {bad}</div>
+            <div>Total: {good + neutral + bad}</div>
+            <RatingAverage text="Average" values={{ good, neutral, bad }} />
+            <PositiveRatingPercentage
+                text="Positive Percentage"
+                good={good}
+                total={good + neutral + bad}
+            />
+        </div>,
+    ];
+};
+
 const Button = ({ buttonText, handleClick }) => (
     <button onClick={handleClick}>{buttonText}</button>
 );
@@ -33,19 +52,7 @@ const App = () => {
             />
             <Button buttonText="Bad" handleClick={() => setBad(bad + 1)} />
         </div>,
-        <h1>Statistics</h1>,
-        <div>
-            <div>Good: {good}</div>
-            <div>Neutral: {neutral}</div>
-            <div>Bad: {bad}</div>
-            <div>Total: {good + neutral + bad}</div>
-            <RatingAverage text="Average" values={{ good, neutral, bad }} />
-            <PositiveRatingPercentage
-                text="Positive Percentage"
-                good={good}
-                total={good + neutral + bad}
-            />
-        </div>,
+        <Statistics values={{ good, bad, neutral }} />,
     ];
 };
 
