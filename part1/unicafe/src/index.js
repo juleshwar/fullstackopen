@@ -3,21 +3,24 @@ import ReactDOM from 'react-dom';
 
 const Statistics = ({ values }) => {
     const { good, bad, neutral } = values;
-    return [
-        <h1>Statistics</h1>,
+    const total = good + neutral + bad;
+    const statisticsDiv = !total ? (
+        <div>No stats available</div>
+    ) : (
         <div>
             <div>Good: {good}</div>
             <div>Neutral: {neutral}</div>
             <div>Bad: {bad}</div>
-            <div>Total: {good + neutral + bad}</div>
+            <div>Total: {total}</div>
             <RatingAverage text="Average" values={{ good, neutral, bad }} />
             <PositiveRatingPercentage
                 text="Positive Percentage"
                 good={good}
-                total={good + neutral + bad}
+                total={total}
             />
-        </div>,
-    ];
+        </div>
+    );
+    return [<h1>Statistics</h1>, statisticsDiv];
 };
 
 const Button = ({ buttonText, handleClick }) => (
