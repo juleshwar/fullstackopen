@@ -1,24 +1,29 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
+const Statistic = ({ text, value }) => (
+    <div>
+        {text}: {value}
+    </div>
+);
 const Statistics = ({ values }) => {
     const { good, bad, neutral } = values;
     const total = good + neutral + bad;
     const statisticsDiv = !total ? (
         <div>No stats available</div>
     ) : (
-        <div>
-            <div>Good: {good}</div>
-            <div>Neutral: {neutral}</div>
-            <div>Bad: {bad}</div>
-            <div>Total: {total}</div>
-            <RatingAverage text="Average" values={{ good, neutral, bad }} />
+        [
+            <Statistic text="Good" value={good} />,
+            <Statistic text="Neutral" value={neutral} />,
+            <Statistic text="Bad" value={bad} />,
+            <Statistic text="Total" value={total} />,
+            <RatingAverage text="Average" values={{ good, neutral, bad }} />,
             <PositiveRatingPercentage
                 text="Positive Percentage"
                 good={good}
                 total={total}
-            />
-        </div>
+            />,
+        ]
     );
     return [<h1>Statistics</h1>, statisticsDiv];
 };
