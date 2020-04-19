@@ -31,7 +31,7 @@ const RatingAverage = ({ text, values }) => {
     const total = good + neutral + bad;
     return (
         <div>
-            {text}: {!total ? '-' : good - bad / total}
+            {text}: {!total ? '-' : (good - bad) / total}
         </div>
     );
 };
