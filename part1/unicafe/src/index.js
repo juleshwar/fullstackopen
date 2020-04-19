@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 const Statistic = ({ text, value }) => (
-    <div>
-        {text}: {value}
-    </div>
+    <tr>
+        <td>{text}</td>
+        <td>{value}</td>
+    </tr>
 );
 const Statistics = ({ values }) => {
     const { good, bad, neutral } = values;
@@ -12,18 +13,20 @@ const Statistics = ({ values }) => {
     const statisticsDiv = !total ? (
         <div>No stats available</div>
     ) : (
-        <>
-            <Statistic text="Good" value={good} />
-            <Statistic text="Neutral" value={neutral} />
-            <Statistic text="Bad" value={bad} />
-            <Statistic text="Total" value={total} />
-            <RatingAverage text="Average" values={{ good, neutral, bad }} />
-            <PositiveRatingPercentage
-                text="Positive Percentage"
-                good={good}
-                total={total}
-            />
-        </>
+        <table>
+            <tbody>
+                <Statistic text="Good" value={good} />
+                <Statistic text="Neutral" value={neutral} />
+                <Statistic text="Bad" value={bad} />
+                <Statistic text="Total" value={total} />
+                <RatingAverage text="Average" values={{ good, neutral, bad }} />
+                <PositiveRatingPercentage
+                    text="Positive Percentage"
+                    good={good}
+                    total={total}
+                />
+            </tbody>
+        </table>
     );
     return (
         <>
@@ -40,15 +43,17 @@ const RatingAverage = ({ text, values }) => {
     const { good, neutral, bad } = values;
     const total = good + neutral + bad;
     return (
-        <div>
-            {text}: {!total ? '-' : (good - bad) / total}
-        </div>
+        <tr>
+            <td>{text}</td>
+            <td>{!total ? '-' : (good - bad) / total}</td>
+        </tr>
     );
 };
 const PositiveRatingPercentage = ({ text, good, total }) => (
-    <div>
-        {text}: {!total ? '-' : `${(good * 100) / total} %`}
-    </div>
+    <tr>
+        <td>{text}</td>
+        <td>{!total ? '-' : `${(good * 100) / total} %`}</td>
+    </tr>
 );
 const App = () => {
     const [good, setGood] = useState(0);
