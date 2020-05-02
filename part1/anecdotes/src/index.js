@@ -39,8 +39,8 @@ const ANECDOTES_TEXT = [
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
 ];
 
-const anecdotes = ANECDOTES_TEXT.map((anecdoteText) => {
-    return { text: anecdoteText, votes: 0 };
+const anecdotes = ANECDOTES_TEXT.map((anecdoteText, index) => {
+    return { text: anecdoteText, votes: 0, id: index };
 });
 
 ReactDOM.render(<App anecdotes={anecdotes} />, document.getElementById('root'));
