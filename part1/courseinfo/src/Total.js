@@ -2,9 +2,9 @@ import React from 'react';
 export const Total = (props) => {
     return (
         <p>
-            Number of exercises {props.parts
+            Total of {props.parts
                 .map((part) => part.exercises)
-                .reduce((exercise, total) => exercise + total)}
+                .reduce((exercise, total) => exercise + total)} exercises 
         </p>
     );
 };
