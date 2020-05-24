@@ -1,10 +1,10 @@
 import React from 'react';
-export const Total = (props) => {
+export const Total = ({ parts }) => {
     return (
         <p>
-            Total of {props.parts
-                .map((part) => part.exercises)
-                .reduce((exercise, total) => exercise + total)} exercises 
+            Total of {parts.reduce((part, next) => {
+                return ({ exercises: part.exercises + next.exercises });
+            }).exercises} exercises
         </p>
     );
 };
