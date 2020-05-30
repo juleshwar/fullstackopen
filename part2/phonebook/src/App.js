@@ -6,8 +6,15 @@ const App = () => {
     ])
     const [newName, setNewName] = useState('')
 
+    function isNameAlreadyPresentInPhonebook(name) {
+        return persons.some(person => person.name === name);
+    }
     function handleFormSubmit(event) {
         event.preventDefault();
+        if(isNameAlreadyPresentInPhonebook(newName)) {
+            window.alert(`${newName} is already added to phonebook`)
+            return;
+        } 
         setPersons(persons.concat({ name: newName }));
         setNewName('');
     }
