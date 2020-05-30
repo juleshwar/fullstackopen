@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
+import { Filter } from './Filter';
+import { PersonForm } from './PersonForm';
+import { PersonList } from './PersonList';
 
+const PERSONS = [
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
+];
 const App = () => {
-    const [persons, setPersons] = useState([
-        { name: 'Arto Hellas', number: '040-123456' },
-        { name: 'Ada Lovelace', number: '39-44-5323523' },
-        { name: 'Dan Abramov', number: '12-43-234345' },
-        { name: 'Mary Poppendieck', number: '39-23-6423122' }
-    ])
+    const [persons, setPersons] = useState(PERSONS)
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [filterValue, setFilterValue] = useState('');
@@ -40,29 +44,19 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-            Filter phonebook: <input value={filterValue} onChange={(event) => setFilterValue(event.target.value)} />
-            <form onSubmit={handleFormSubmit}>
-                <h2>Add a number</h2>
-                <div>
-                    name: <input value={newName} onChange={handleNameChange} />
-                </div>
-                <div>
-                    number: <input value={newNumber} onChange={handleNumberChange} />
-                </div>
-                <div>
-                    <button type="submit">add</button>
-                </div>
-            </form>
+            <Filter value={filterValue} inputHandler={setFilterValue} />
+            <h2>Add a number</h2>
+            <PersonForm
+                name={newName}
+                number={newNumber}
+                nameChangeHandler={handleNameChange}
+                numberChangeHandler={handleNumberChange}
+                submitHandler={handleFormSubmit}
+            />
             <h2>Numbers</h2>
-            <ul>
-                {
-                    persons
-                        .filter(person => doesStringInclude(person.name, filterValue))
-                        .map((person, index) =>
-                            <li key={person.name + index}>{person.name} {person.number}</li>
-                        )
-                }
-            </ul>
+            <PersonList
+                persons={persons.filter(person => doesStringInclude(person.name, filterValue))}
+            />
         </div>
     )
 }
