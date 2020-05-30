@@ -34,7 +34,7 @@ const App = () => {
     }
 
     function doesStringInclude(base, test) {
-        base.toLowerCase().includes(test)
+        return base.toLowerCase().includes(test)
     }
 
     return (
