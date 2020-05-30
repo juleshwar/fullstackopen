@@ -33,6 +33,10 @@ const App = () => {
         setNewNumber(event.target.value);
     }
 
+    function doesStringInclude(base, test) {
+        base.toLowerCase().includes(test)
+    }
+
     return (
         <div>
             <h2>Phonebook</h2>
@@ -53,7 +57,7 @@ const App = () => {
             <ul>
                 {
                     persons
-                        .filter(person => person.name.toLowerCase().includes(filterValue))
+                        .filter(person => doesStringInclude(person.name, filterValue))
                         .map((person, index) =>
                             <li key={person.name + index}>{person.name} {person.number}</li>
                         )
