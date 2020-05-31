@@ -1,19 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 import { Filter } from './Filter';
 import { PersonForm } from './PersonForm';
 import { PersonList } from './PersonList';
 
-const PERSONS = [
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-];
 const App = () => {
-    const [persons, setPersons] = useState(PERSONS)
+    const [persons, setPersons] = useState([]);
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [filterValue, setFilterValue] = useState('');
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:3001/persons")
+            .then(response => setPersons(response.data))
+    }, [])
 
     function isNameAlreadyPresentInPhonebook(name) {
         return persons.some(person => person.name === name);
