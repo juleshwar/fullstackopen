@@ -1,24 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { CountryList } from './CountryList';
+import { CountryDetails } from './CountryDetails';
 
 function App() {
+  const [countries, setCountries] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  function searchCountriesByName(event) {
+    setSearchTerm(event.target.value);
+  }
+  useEffect(
+    () => {
+      if (searchTerm) {
+        axios
+          .get(`https://restcountries.eu/rest/v2/name/${searchTerm}`)
+          .then(response => {
+            setCountries(response.data);
+          })
+          .catch(_ => {
+            setCountries([]);
+          })
+      } else {
+        setCountries([]);
+      }
+    }
+    , [searchTerm]
+  );
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="countries-search-form">
+        find  countries <input value={searchTerm} onChange={searchCountriesByName} />
+      </div>
+      <div className="countries-content">
+        {
+          countries.length === 1 ?
+            <CountryDetails country={countries[0]} /> :
+            <CountryList countries={countries} />
+        }
+      </div>
     </div>
   );
 }
