@@ -28,17 +28,23 @@ function App() {
     , [searchTerm]
   );
 
+  function showButtonClickHandler(country) {
+    setCountries([country]);
+  }
+
+  function CountryContent() {
+    return (countries.length === 1) ?
+      <CountryDetails country={countries[0]} /> :
+      <CountryList countries={countries} handleShowButtonClick={showButtonClickHandler} />
+  }
+
   return (
     <div className="App">
       <div className="countries-search-form">
         find  countries <input value={searchTerm} onChange={searchCountriesByName} />
       </div>
       <div className="countries-content">
-        {
-          countries.length === 1 ?
-            <CountryDetails country={countries[0]} /> :
-            <CountryList countries={countries} />
-        }
+        <CountryContent />
       </div>
     </div>
   );
