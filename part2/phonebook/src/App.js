@@ -5,18 +5,26 @@ import { PersonForm } from './components/PersonForm';
 import { PersonList } from './components/PersonList';
 import { APIService } from './services/APIService';
 import { generateUniqueId } from './services/UtilFunctions';
+import { Notification } from './components/Notification';
+import './App.css';
 
 const App = () => {
     const [persons, setPersons] = useState([]);
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [filterValue, setFilterValue] = useState('');
+    const [notificationMessage, setNotificationMessage] = useState('');
 
     useEffect(() => {
         axios
             .get("http://localhost:3001/persons")
             .then(response => setPersons(response.data))
     }, [])
+
+    function notify(message) {
+        setNotificationMessage(message);
+        setTimeout(_ => setNotificationMessage(''), 3000);
+    }
 
     function isNameAlreadyPresentInPhonebook(name) {
         return persons.some(person => person.name === name);
@@ -33,6 +41,7 @@ const App = () => {
                         .filter(p => p.id !== existingPerson.id)
                         .concat(updatedPerson))
                     )
+                    .then(_ => notify(`Updated ${updatedPerson.name}'s contact`))
                     .catch(error => window.alert(error));
             }
             return;
@@ -41,6 +50,7 @@ const App = () => {
         APIService
             .postPerson(newPerson)
             .then(person => setPersons(persons.concat(person)))
+            .then(_ => notify(`Added ${newPerson.name}'s contact`))
             .catch(error => window.alert(error))
         setNewName('');
         setNewNumber('');
@@ -51,6 +61,7 @@ const App = () => {
             APIService
                 .deletePerson(person)
                 .then(_ => setPersons(persons.filter(p => p.id !== person.id)))
+                .then(_ => notify(`Deleted ${person.name}'s contact`))
                 .catch(error => window.alert(error))
         }
     }
@@ -70,6 +81,7 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
+            <Notification message={notificationMessage} />
             <Filter value={filterValue} inputHandler={setFilterValue} />
             <h2>Add a number</h2>
             <PersonForm
