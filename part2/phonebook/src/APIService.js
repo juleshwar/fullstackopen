@@ -6,6 +6,10 @@ export default class APIServiceBean {
             .post(`http://localhost:3001/persons`, person);
         return response.data;
     }
+
+    async deletePerson(person) {
+        return axios.delete(`http://localhost:3001/persons/${person.id}`)
+    }
 }
 
 const APIService = new APIServiceBean()
