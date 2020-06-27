@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { Filter } from './Filter';
-import { PersonForm } from './PersonForm';
-import { PersonList } from './PersonList';
-import { APIService } from './APIService';
-import { generateUniqueId } from './UtilFunctions';
+import { Filter } from './components/Filter';
+import { PersonForm } from './components/PersonForm';
+import { PersonList } from './components/PersonList';
+import { APIService } from './services/APIService';
+import { generateUniqueId } from './services/UtilFunctions';
 
 const App = () => {
     const [persons, setPersons] = useState([]);
