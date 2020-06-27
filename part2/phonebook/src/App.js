@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Filter } from './Filter';
 import { PersonForm } from './PersonForm';
 import { PersonList } from './PersonList';
+import { APIService } from './APIService';
+import { generateUniqueId } from './UtilFunctions';
 
 const App = () => {
     const [persons, setPersons] = useState([]);
@@ -25,7 +27,11 @@ const App = () => {
             window.alert(`${newName} is already added to phonebook`)
             return;
         }
-        setPersons(persons.concat({ name: newName, number: newNumber }));
+        const newPerson = { name: newName, number: newNumber, id: generateUniqueId() };
+        APIService
+            .postPerson(newPerson)
+            .then(person => setPersons(persons.concat(person)))
+            .catch(error => window.alert(error))
         setNewName('');
         setNewNumber('');
     }
