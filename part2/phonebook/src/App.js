@@ -36,6 +36,15 @@ const App = () => {
         setNewNumber('');
     }
 
+    function handleDeletePerson(person) {
+        if (window.confirm(`Are you sure you want to delete ${person.name}'s contact`)) {
+            APIService
+                .deletePerson(person)
+                .then(_ => setPersons(persons.filter(p => p.id !== person.id)))
+                .catch(error => window.alert(error))
+        }
+    }
+
     function handleNameChange(event) {
         setNewName(event.target.value);
     }
@@ -63,6 +72,7 @@ const App = () => {
             <h2>Numbers</h2>
             <PersonList
                 persons={persons.filter(person => doesStringInclude(person.name, filterValue))}
+                onDelete={handleDeletePerson}
             />
         </div>
     )
