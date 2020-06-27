@@ -13,7 +13,7 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [filterValue, setFilterValue] = useState('');
-    const [notificationMessage, setNotificationMessage] = useState('');
+    const [notificationObject, setNotificationObject] = useState({ type: 'success', message: '' });
 
     useEffect(() => {
         axios
@@ -21,9 +21,9 @@ const App = () => {
             .then(response => setPersons(response.data))
     }, [])
 
-    function notify(message) {
-        setNotificationMessage(message);
-        setTimeout(_ => setNotificationMessage(''), 3000);
+    function notify(type, message) {
+        setNotificationObject({ type, message });
+        setTimeout(_ => setNotificationObject({ type: 'success', message: '' }), 3000);
     }
 
     function isNameAlreadyPresentInPhonebook(name) {
@@ -41,8 +41,8 @@ const App = () => {
                         .filter(p => p.id !== existingPerson.id)
                         .concat(updatedPerson))
                     )
-                    .then(_ => notify(`Updated ${updatedPerson.name}'s contact`))
-                    .catch(error => window.alert(error));
+                    .then(_ => notify('success', `Updated ${updatedPerson.name}'s contact`))
+                    .catch(error => notify('error', error));
             }
             return;
         }
@@ -50,8 +50,8 @@ const App = () => {
         APIService
             .postPerson(newPerson)
             .then(person => setPersons(persons.concat(person)))
-            .then(_ => notify(`Added ${newPerson.name}'s contact`))
-            .catch(error => window.alert(error))
+            .then(_ => notify('success', `Added ${newPerson.name}'s contact`))
+            .catch(error => notify('error', error))
         setNewName('');
         setNewNumber('');
     }
@@ -61,8 +61,11 @@ const App = () => {
             APIService
                 .deletePerson(person)
                 .then(_ => setPersons(persons.filter(p => p.id !== person.id)))
-                .then(_ => notify(`Deleted ${person.name}'s contact`))
-                .catch(error => window.alert(error))
+                .then(_ => notify('success', `Deleted ${person.name}'s contact`))
+                .catch(_ => {
+                    setPersons(persons.filter(p => p.id !== person.id));
+                    notify('error', `${person.name}'s contact has already been deleted`);
+                })
         }
     }
 
@@ -81,7 +84,7 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-            <Notification message={notificationMessage} />
+            <Notification config={notificationObject} />
             <Filter value={filterValue} inputHandler={setFilterValue} />
             <h2>Add a number</h2>
             <PersonForm
