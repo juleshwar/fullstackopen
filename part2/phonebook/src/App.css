@@ -1,12 +1,18 @@
 .notification {
   display: flex;
   align-items: center;
-  border: 1px solid green;
-  color: green;
   background-color: #ddd;
   width: 50%;
   height: 40px;
   font-size: 22px;
   padding: 5px 15px;
   border-radius: 4px;
+}
+.notification.success {
+  border: 1px solid green;
+  color: green;
+}
+.notification.error {
+  border: 1px solid red;
+  color: red;
 }

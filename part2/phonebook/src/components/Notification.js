@@ -1,8 +1,9 @@
 import React from 'react';
 
-export const Notification = ({ message }) => {
-    if (!message) return null
+export const Notification = ({ config }) => {
+    const { type, message } = config;
+    if (!message) return null;
     return (
-        <p className="notification">{message}</p>
+        <p className={`notification ${type}`}>{message}</p>
     )
 }
