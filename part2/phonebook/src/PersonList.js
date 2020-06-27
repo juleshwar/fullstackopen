@@ -1,11 +1,14 @@
 import React from 'react'
 
-export const PersonList = ({ persons }) => {
+export const PersonList = ({ persons, onDelete }) => {
     return (
         <ul>
             {
-                persons.map((person, index) =>
-                    <li key={person.name + index}>{person.name} {person.number}</li>)
+                persons.map(person =>
+                    <li key={person.id}>
+                        {person.name} {person.number}
+                        <button onClick={() => { onDelete(person) }}>Delete</button>
+                    </li>)
             }
         </ul>
     )
