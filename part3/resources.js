@@ -1,4 +1,4 @@
-const PHONEBOOK = [
+let PHONEBOOK = [
     {
         "name": "Arto Hellas",
         "number": "040-123456",
@@ -21,4 +21,12 @@ const PHONEBOOK = [
     }
 ];
 
-module.exports = { PHONEBOOK };
+function getPhonebook(params) {
+    return PHONEBOOK;
+}
+
+function setPhonebook(newPhonebook) {
+    PHONEBOOK = newPhonebook;
+}
+
+module.exports = { getPhonebook, setPhonebook };
