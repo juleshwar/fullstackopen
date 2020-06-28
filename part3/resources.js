@@ -1,4 +1,4 @@
-const NOTES = [
+const PHONEBOOK = [
     {
         "name": "Arto Hellas",
         "number": "040-123456",
@@ -21,4 +21,4 @@ const NOTES = [
     }
 ];
 
-module.exports = { NOTES };
+module.exports = { PHONEBOOK };
