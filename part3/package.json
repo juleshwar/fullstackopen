@@ -1,0 +1,23 @@
+{
+  "name": "phonebook-server",
+  "version": "1.0.0",
+  "description": "A Node.js express server to handle phonebook requests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juleshwar/fullstackopen.git"
+  },
+  "keywords": [
+    "fullstackopen",
+    "phonebook"
+  ],
+  "author": "Juleshwar (https://github.com/juleshwar)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juleshwar/fullstackopen/issues"
+  },
+  "homepage": "https://github.com/juleshwar/fullstackopen#readme"
+}
