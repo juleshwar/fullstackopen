@@ -1,6 +1,7 @@
 const HTTP_STATUS = {
     NO_CONTENT_SUCCESS: 204,
     NOT_FOUND: 404,
+    UNPROCESSABLE_ENTITY: 422,
 };
 
 module.exports = HTTP_STATUS;

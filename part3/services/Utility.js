@@ -20,4 +20,8 @@ function generateId() {
     return pseudoRandomId;
 }
 
-module.exports = { getContact, deleteContact, addContact, generateId }
+function doesContactAlreadyExist(name) {
+    return getPhonebook().find(c => c.name === name);
+}
+
+module.exports = { getContact, deleteContact, addContact, generateId, doesContactAlreadyExist }
