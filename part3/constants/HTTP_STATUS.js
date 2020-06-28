@@ -1,5 +1,6 @@
 const HTTP_STATUS = {
-    NOT_FOUND: 404
+    NO_CONTENT_SUCCESS: 204,
+    NOT_FOUND: 404,
 };
 
 module.exports = HTTP_STATUS;

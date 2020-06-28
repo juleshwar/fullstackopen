@@ -1,6 +1,6 @@
 const express = require('express');
-const { PHONEBOOK } = require('./resources');
-const { getContact } = require('./services/Utility');
+const { getPhonebook } = require('./resources');
+const { getContact, deleteContact } = require('./services/Utility');
 const HTTP_STATUS = require('./constants/HTTP_STATUS');
 
 const PORT = 3001;
@@ -10,13 +10,13 @@ const server = express();
 
 server.get(`/info`, (req, res) => {
     res.send(`
-        Phonebook contains ${PHONEBOOK.length} contacts. <br/><br/>
+        Phonebook contains ${getPhonebook().length} contacts. <br/><br/>
         ${new Date()}
     `);
 })
 
 server.get(`${PREFIX}/persons`, (req, res) => {
-    res.json(PHONEBOOK);
+    res.json(getPhonebook());
 })
 
 server.get(`${PREFIX}/persons/:id`, (req, res) => {
@@ -27,6 +27,12 @@ server.get(`${PREFIX}/persons/:id`, (req, res) => {
     } else {
         res.status(HTTP_STATUS.NOT_FOUND).end();
     }
+})
+
+server.delete(`${PREFIX}/persons/:id`, (req, res) => {
+    const id = Number(req.params.id);
+    deleteContact(id);
+    res.status(HTTP_STATUS.NO_CONTENT_SUCCESS).end();
 })
 
 server.listen(PORT, () => {
