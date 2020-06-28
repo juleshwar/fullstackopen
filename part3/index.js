@@ -6,6 +6,13 @@ const PREFIX = `/api`;
 
 const server = express();
 
+server.get(`/info`, (req, res) => {
+    res.send(`
+        Phonebook contains ${NOTES.length} contacts. <br/><br/>
+        ${new Date()}
+    `);
+})
+
 server.get(`${PREFIX}/persons`, (req, res) => {
     res.json(NOTES);
 })
