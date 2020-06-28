@@ -1,7 +1,11 @@
-const { PHONEBOOK } = require("../resources");
+let { getPhonebook, setPhonebook } = require("../resources");
 
 function getContact(id) {
-    return PHONEBOOK.find(c => c.id === id);
+    return getPhonebook().find(c => c.id === id);
 }
 
-module.exports = { getContact }
+function deleteContact(id) {
+    return setPhonebook(getPhonebook().filter(c => c.id !== id));
+}
+
+module.exports = { getContact, deleteContact }
