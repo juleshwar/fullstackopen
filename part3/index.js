@@ -1,6 +1,6 @@
 const express = require('express');
 const { getPhonebook } = require('./resources');
-const { getContact, deleteContact, addContact, generateId } = require('./services/Utility');
+const { getContact, deleteContact, addContact, generateId, doesContactAlreadyExist } = require('./services/Utility');
 const HTTP_STATUS = require('./constants/HTTP_STATUS');
 
 const PORT = 3001;
@@ -32,11 +32,15 @@ server.get(`${PREFIX}/persons/:id`, (req, res) => {
 })
 
 server.post(`${PREFIX}/persons`, (req, res) => {
-    const body = req.body;
+    const { name, number } = req.body;
+    if (!name) return raiseError(HTTP_STATUS.UNPROCESSABLE_ENTITY, `No name present`, res);
+    if (!number) return raiseError(HTTP_STATUS.UNPROCESSABLE_ENTITY, `No number present`, res);
+    if (doesContactAlreadyExist(name)) return raiseError(HTTP_STATUS.UNPROCESSABLE_ENTITY, `Name already exists`, res);
+
     const newContact = {
         id: generateId(),
-        name: body.name,
-        number: body.number
+        name,
+        number
     };
     addContact(newContact);
     res.json(newContact)
@@ -47,6 +51,13 @@ server.delete(`${PREFIX}/persons/:id`, (req, res) => {
     deleteContact(id);
     res.status(HTTP_STATUS.NO_CONTENT_SUCCESS).end();
 })
+
+function raiseError(http_status, error, response) {
+    return response
+        .status(http_status)
+        .json({ error })
+        .end();
+}
 
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}...`);
