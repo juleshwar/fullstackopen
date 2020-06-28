@@ -1,12 +1,14 @@
 const express = require('express');
 const { getPhonebook } = require('./resources');
-const { getContact, deleteContact } = require('./services/Utility');
+const { getContact, deleteContact, addContact, generateId } = require('./services/Utility');
 const HTTP_STATUS = require('./constants/HTTP_STATUS');
 
 const PORT = 3001;
 const PREFIX = `/api`;
 
 const server = express();
+
+server.use(express.json());
 
 server.get(`/info`, (req, res) => {
     res.send(`
@@ -27,6 +29,17 @@ server.get(`${PREFIX}/persons/:id`, (req, res) => {
     } else {
         res.status(HTTP_STATUS.NOT_FOUND).end();
     }
+})
+
+server.post(`${PREFIX}/persons`, (req, res) => {
+    const body = req.body;
+    const newContact = {
+        id: generateId(),
+        name: body.name,
+        number: body.number
+    };
+    addContact(newContact);
+    res.json(newContact)
 })
 
 server.delete(`${PREFIX}/persons/:id`, (req, res) => {
