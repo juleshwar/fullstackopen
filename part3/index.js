@@ -8,14 +8,18 @@ const PORT = 3001;
 const PREFIX = `/api`;
 
 const server = express();
-initMorgan();
 
 server.use(express.json());
-server.use(morgan(':method :url :status :res[content-length] - :response-time ms :request-body'));
-
-function initMorgan() {
-    morgan.token('request-body', function (req, res) { return JSON.stringify(req.body) })
-}
+server.use(morgan(function (tokens, req, res) {
+    return [
+        tokens.method(req, res),
+        tokens.url(req, res),
+        tokens.status(req, res),
+        tokens.res(req, res, 'content-length'), '-',
+        tokens['response-time'](req, res), 'ms',
+        JSON.stringify(req.body),
+    ].join(' ')
+}));
 
 server.get(`/info`, (req, res) => {
     res.send(`
