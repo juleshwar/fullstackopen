@@ -8,9 +8,14 @@ const PORT = 3001;
 const PREFIX = `/api`;
 
 const server = express();
+initMorgan();
 
 server.use(express.json());
-server.use(morgan('tiny'));
+server.use(morgan(':method :url :status :res[content-length] - :response-time ms :request-body'));
+
+function initMorgan() {
+    morgan.token('request-body', function (req, res) { return JSON.stringify(req.body) })
+}
 
 server.get(`/info`, (req, res) => {
     res.send(`
