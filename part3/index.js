@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 const { getPhonebook } = require('./resources');
 const { getContact, deleteContact, addContact, generateId, doesContactAlreadyExist } = require('./services/Utility');
 const HTTP_STATUS = require('./constants/HTTP_STATUS');
@@ -9,6 +10,7 @@ const PREFIX = `/api`;
 const server = express();
 
 server.use(express.json());
+server.use(morgan('tiny'));
 
 server.get(`/info`, (req, res) => {
     res.send(`
