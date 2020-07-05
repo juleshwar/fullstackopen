@@ -3,24 +3,24 @@ import axios from 'axios';
 export default class APIServiceBean {
     async getPersons() {
         const response = await axios
-            .get(`http://localhost:3001/persons`)
+            .get(`/api/persons`)
         return response.data;
     }
 
     async postPerson(person) {
         const response = await axios
-            .post(`http://localhost:3001/persons`, person);
+            .post(`/api/persons`, person);
         return response.data;
     }
 
     async putPerson(person) {
         const response = await axios
-            .put(`http://localhost:3001/persons/${person.id}`, person)
+            .put(`/api/persons/${person.id}`, person)
         return response.data;
     }
 
     async deletePerson(person) {
-        return axios.delete(`http://localhost:3001/persons/${person.id}`)
+        return axios.delete(`/api/persons/${person.id}`)
     }
 }
 
