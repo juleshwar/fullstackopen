@@ -4,7 +4,7 @@ const { getPhonebook } = require('./resources');
 const { getContact, deleteContact, addContact, generateId, doesContactAlreadyExist } = require('./services/Utility');
 const HTTP_STATUS = require('./constants/HTTP_STATUS');
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001
 const PREFIX = `/api`;
 
 const server = express();
