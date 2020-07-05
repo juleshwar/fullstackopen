@@ -1,6 +1,12 @@
 import axios from 'axios';
 
 export default class APIServiceBean {
+    async getPersons() {
+        const response = await axios
+            .get(`http://localhost:3001/persons`)
+        return response.data;
+    }
+
     async postPerson(person) {
         const response = await axios
             .post(`http://localhost:3001/persons`, person);
