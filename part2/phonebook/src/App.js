@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios';
 import { Filter } from './components/Filter';
 import { PersonForm } from './components/PersonForm';
 import { PersonList } from './components/PersonList';
@@ -16,9 +15,9 @@ const App = () => {
     const [notificationObject, setNotificationObject] = useState({ type: 'success', message: '' });
 
     useEffect(() => {
-        axios
-            .get("http://localhost:3001/persons")
-            .then(response => setPersons(response.data))
+        APIService
+            .getPersons()
+            .then(persons => setPersons(persons));
     }, [])
 
     function notify(type, message) {
