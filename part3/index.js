@@ -9,6 +9,8 @@ const PREFIX = `/api`;
 
 const server = express();
 
+server.use(express.static('build'))
+
 server.use(express.json());
 server.use(morgan(function (tokens, req, res) {
     return [
