@@ -5,6 +5,13 @@ class DatabaseHelperBean {
     getAllContacts() {
         return ContactModel.find({});
     }
+    addContact(name, number) {
+        const newContact = new ContactModel({
+            name,
+            number
+        })
+        return newContact.save();
+    }
     connectToDatabase() {
         const url = process.env.MONGODB_URI;
         mongoose

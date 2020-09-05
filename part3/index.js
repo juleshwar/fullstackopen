@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 require('dotenv').config();
 const { getPhonebook } = require('./resources');
-const { getContact, deleteContact, addContact, generateId, doesContactAlreadyExist } = require('./services/Utility');
+const { getContact, deleteContact } = require('./services/Utility');
 const DatabaseHelper = require('./services/DatabaseHelper');
 const HTTP_STATUS = require('./constants/HTTP_STATUS');
 
@@ -56,15 +56,9 @@ server.post(`${PREFIX}/persons`, (req, res) => {
     const { name, number } = req.body;
     if (!name) return raiseError(HTTP_STATUS.UNPROCESSABLE_ENTITY, `No name present`, res);
     if (!number) return raiseError(HTTP_STATUS.UNPROCESSABLE_ENTITY, `No number present`, res);
-    if (doesContactAlreadyExist(name)) return raiseError(HTTP_STATUS.UNPROCESSABLE_ENTITY, `Name already exists`, res);
+    // if (doesContactAlreadyExist(name)) return raiseError(HTTP_STATUS.UNPROCESSABLE_ENTITY, `Name already exists`, res);
 
-    const newContact = {
-        id: generateId(),
-        name,
-        number
-    };
-    addContact(newContact);
-    res.json(newContact)
+    DatabaseHelper.addContact(name, number)
 })
 
 server.delete(`${PREFIX}/persons/:id`, (req, res) => {
