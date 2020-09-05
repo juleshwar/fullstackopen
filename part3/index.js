@@ -1,7 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
+require('dotenv').config();
 const { getPhonebook } = require('./resources');
 const { getContact, deleteContact, addContact, generateId, doesContactAlreadyExist } = require('./services/Utility');
+const DatabaseHelper = require('./services/DatabaseHelper');
 const HTTP_STATUS = require('./constants/HTTP_STATUS');
 
 const PORT = process.env.PORT || 3001
@@ -23,6 +25,8 @@ server.use(morgan(function (tokens, req, res) {
     ].join(' ')
 }));
 
+DatabaseHelper.connectToDatabase();
+
 server.get(`/info`, (req, res) => {
     res.send(`
         Phonebook contains ${getPhonebook().length} contacts. <br/><br/>
@@ -31,7 +35,11 @@ server.get(`/info`, (req, res) => {
 })
 
 server.get(`${PREFIX}/persons`, (req, res) => {
-    res.json(getPhonebook());
+    DatabaseHelper
+        .getAllContacts()
+        .then(contacts => {
+            res.json(contacts);
+        })
 })
 
 server.get(`${PREFIX}/persons/:id`, (req, res) => {
