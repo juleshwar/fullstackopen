@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const ContactModel = require("../models/note");
+const ContactModel = require("../models/contact");
 
 class DatabaseHelperBean {
     getAllContacts() {
