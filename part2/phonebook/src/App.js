@@ -36,7 +36,7 @@ const App = () => {
                 const updatedPerson = { ...existingPerson, number: newNumber };
                 APIService
                     .putPerson(updatedPerson)
-                    .then(updatedPerson => setPersons(persons
+                    .then(_ => setPersons(persons
                         .filter(p => p.id !== existingPerson.id)
                         .concat(updatedPerson))
                     )
@@ -48,7 +48,7 @@ const App = () => {
         const newPerson = { name: newName, number: newNumber, id: generateUniqueId() };
         APIService
             .postPerson(newPerson)
-            .then(person => setPersons(persons.concat(person)))
+            .then(_ => setPersons(persons.concat(newPerson)))
             .then(_ => notify('success', `Added ${newPerson.name}'s contact`))
             .catch(error => notify('error', error))
         setNewName('');
