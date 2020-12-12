@@ -12,6 +12,9 @@ class DatabaseHelperBean {
         })
         return newContact.save();
     }
+    deleteContact(id) {
+        return ContactModel.findByIdAndDelete(id);
+    }
     connectToDatabase() {
         const url = process.env.MONGODB_URI;
         mongoose
