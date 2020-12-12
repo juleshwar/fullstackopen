@@ -52,13 +52,16 @@ server.get(`${PREFIX}/persons/:id`, (req, res) => {
     }
 })
 
-server.post(`${PREFIX}/persons`, (req, res) => {
+server.post(`${PREFIX}/persons`, (req, res, next) => {
     const { name, number } = req.body;
     if (!name) return raiseError(HTTP_STATUS.UNPROCESSABLE_ENTITY, `No name present`, res);
     if (!number) return raiseError(HTTP_STATUS.UNPROCESSABLE_ENTITY, `No number present`, res);
     // if (doesContactAlreadyExist(name)) return raiseError(HTTP_STATUS.UNPROCESSABLE_ENTITY, `Name already exists`, res);
 
-    DatabaseHelper.addContact(name, number)
+    DatabaseHelper
+        .addContact(name, number)
+        .then(_ => res.status(HTTP_STATUS.CREATED).end())
+        .catch(error => next(error))
 })
 
 server.delete(`${PREFIX}/persons/:id`, (req, res, next) => {
