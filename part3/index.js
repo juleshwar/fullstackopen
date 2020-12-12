@@ -64,6 +64,15 @@ server.post(`${PREFIX}/persons`, (req, res, next) => {
         .catch(error => next(error))
 })
 
+server.put(`${PREFIX}/persons/:id`, (req, res, next) => {
+    const id = req.params.id;
+    const number = req.params.number;
+    DatabaseHelper
+        .updateContact(id, number)
+        .then(_ => res.status(HTTP_STATUS.NO_CONTENT_SUCCESS).end())
+        .catch(error => next(error))
+})
+
 server.delete(`${PREFIX}/persons/:id`, (req, res, next) => {
     const id = req.params.id;
     DatabaseHelper
