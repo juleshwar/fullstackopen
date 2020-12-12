@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 require('dotenv').config();
 const { getPhonebook } = require('./resources');
-const { getContact, deleteContact } = require('./services/Utility');
+const { getContact } = require('./services/Utility');
 const DatabaseHelper = require('./services/DatabaseHelper');
 const HTTP_STATUS = require('./constants/HTTP_STATUS');
 
@@ -61,10 +61,12 @@ server.post(`${PREFIX}/persons`, (req, res) => {
     DatabaseHelper.addContact(name, number)
 })
 
-server.delete(`${PREFIX}/persons/:id`, (req, res) => {
-    const id = Number(req.params.id);
-    deleteContact(id);
-    res.status(HTTP_STATUS.NO_CONTENT_SUCCESS).end();
+server.delete(`${PREFIX}/persons/:id`, (req, res, next) => {
+    const id = req.params.id;
+    DatabaseHelper
+        .deleteContact(id)
+        .then(_ => res.status(HTTP_STATUS.NO_CONTENT_SUCCESS).end())
+        .catch(error => next(error))
 })
 
 function raiseError(http_status, error, response) {
