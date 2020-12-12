@@ -15,6 +15,11 @@ class DatabaseHelperBean {
     deleteContact(id) {
         return ContactModel.findByIdAndDelete(id);
     }
+    updateContact(id, number) {
+        return ContactModel.findByIdAndUpdate(id, {
+            $set: { number }
+        })
+    }
     connectToDatabase() {
         const url = process.env.MONGODB_URI;
         mongoose
