@@ -5,6 +5,6 @@ const HTTP_STATUS = {
     FORBIDDEN: 403,
     NOT_FOUND: 404,
     UNPROCESSABLE_ENTITY: 422,
-};
+}
 
-module.exports = HTTP_STATUS;
+module.exports = HTTP_STATUS
