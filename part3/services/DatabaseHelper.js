@@ -5,6 +5,9 @@ class DatabaseHelperBean {
     getAllContacts() {
         return ContactModel.find({});
     }
+    getContact(id) {
+        return ContactModel.findOne({ _id: id });
+    }
     addContact(name, number) {
         const newContact = new ContactModel({
             name,

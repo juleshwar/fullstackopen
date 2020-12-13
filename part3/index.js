@@ -2,7 +2,6 @@ const express = require('express');
 const morgan = require('morgan');
 require('dotenv').config();
 const { getPhonebook } = require('./resources');
-const { getContact } = require('./services/Utility');
 const DatabaseHelper = require('./services/DatabaseHelper');
 const HTTP_STATUS = require('./constants/HTTP_STATUS');
 
@@ -43,13 +42,17 @@ server.get(`${PREFIX}/persons`, (req, res) => {
 })
 
 server.get(`${PREFIX}/persons/:id`, (req, res) => {
-    const id = Number(req.params.id);
-    const contact = getContact(id);
-    if (contact) {
-        res.json(contact);
-    } else {
-        res.status(HTTP_STATUS.NOT_FOUND).end();
-    }
+    const id = req.params.id;
+    DatabaseHelper
+        .getContact(id)
+        .then(contact => {
+            if (contact) {
+                res.json(contact);
+            } else {
+                res.status(HTTP_STATUS.NOT_FOUND).end();
+            }
+        })
+        .catch(error => next(error))
 })
 
 server.post(`${PREFIX}/persons`, (req, res, next) => {
