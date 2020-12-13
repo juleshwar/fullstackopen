@@ -3,7 +3,6 @@ import { Filter } from './components/Filter';
 import { PersonForm } from './components/PersonForm';
 import { PersonList } from './components/PersonList';
 import { APIService } from './services/APIService';
-import { generateUniqueId } from './services/UtilFunctions';
 import { Notification } from './components/Notification';
 import './App.css';
 
@@ -45,7 +44,7 @@ const App = () => {
             }
             return;
         }
-        const newPerson = { name: newName, number: newNumber, id: generateUniqueId() };
+        const newPerson = { name: newName, number: newNumber };
         APIService
             .postPerson(newPerson)
             .then(_ => setPersons(persons.concat(newPerson)))
