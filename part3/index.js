@@ -3,6 +3,7 @@ const morgan = require('morgan');
 require('dotenv').config();
 const DatabaseHelper = require('./services/DatabaseHelper');
 const HTTP_STATUS = require('./constants/HTTP_STATUS');
+const ErrorHandler = require('./services/ErrorHandler');
 
 const PORT = process.env.PORT || 3001
 const PREFIX = `/api`;
@@ -95,6 +96,8 @@ function raiseError(http_status, error, response) {
         .json({ error })
         .end();
 }
+
+server.use(ErrorHandler);
 
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}...`);

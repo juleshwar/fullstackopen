@@ -1,10 +1,19 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 function getContactSchema() {
     const ContactSchema = new mongoose.Schema({
-        name: String,
-        number: String
+        name: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        number: {
+            type: String,
+            required: true,
+        }
     });
+    ContactSchema.plugin(uniqueValidator);
     return curateSchema(ContactSchema);
 }
 
