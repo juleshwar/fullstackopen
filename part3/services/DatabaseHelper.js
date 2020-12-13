@@ -5,6 +5,9 @@ class DatabaseHelperBean {
     getAllContacts() {
         return ContactModel.find({});
     }
+    getTotalContacts() {
+        return ContactModel.countDocuments({})
+    }
     getContact(id) {
         return ContactModel.findOne({ _id: id });
     }
