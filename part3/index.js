@@ -1,7 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
 require('dotenv').config();
-const { getPhonebook } = require('./resources');
 const DatabaseHelper = require('./services/DatabaseHelper');
 const HTTP_STATUS = require('./constants/HTTP_STATUS');
 
@@ -27,10 +26,15 @@ server.use(morgan(function (tokens, req, res) {
 DatabaseHelper.connectToDatabase();
 
 server.get(`/info`, (req, res) => {
-    res.send(`
-        Phonebook contains ${getPhonebook().length} contacts. <br/><br/>
-        ${new Date()}
-    `);
+    DatabaseHelper
+        .getTotalContacts()
+        .then(count => {
+            res.send(`
+            Phonebook contains ${count} contacts. <br/><br/>
+            ${new Date()}
+        `);
+        })
+        .catch(error => next(error))
 })
 
 server.get(`${PREFIX}/persons`, (req, res) => {
@@ -39,6 +43,7 @@ server.get(`${PREFIX}/persons`, (req, res) => {
         .then(contacts => {
             res.json(contacts);
         })
+        .catch(error => next(error))
 })
 
 server.get(`${PREFIX}/persons/:id`, (req, res) => {
