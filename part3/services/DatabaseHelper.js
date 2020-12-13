@@ -22,9 +22,11 @@ class DatabaseHelperBean {
         return ContactModel.deleteOne({ _id: id });
     }
     updateContact(id, number) {
-        return ContactModel.updateOne({ _id: id }, {
-            $set: { number }
-        })
+        return ContactModel.updateOne(
+            { _id: id },
+            { $set: { number } },
+            { runValidators: true }
+        )
     }
     connectToDatabase() {
         const url = process.env.MONGODB_URI;
