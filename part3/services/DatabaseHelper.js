@@ -16,7 +16,7 @@ class DatabaseHelperBean {
         return newContact.save();
     }
     deleteContact(id) {
-        return ContactModel.findByIdAndDelete(id);
+        return ContactModel.deleteOne({ _id: id });
     }
     updateContact(id, number) {
         return ContactModel.updateOne({ _id: id }, {
@@ -30,7 +30,6 @@ class DatabaseHelperBean {
             .then(console.log("Connected to database"))
             .catch(error => console.log('error', error));
     }
-
     disconnectFromDatabase() {
         mongoose.connection
             .close()
