@@ -66,7 +66,7 @@ server.post(`${PREFIX}/persons`, (req, res, next) => {
 
 server.put(`${PREFIX}/persons/:id`, (req, res, next) => {
     const id = req.params.id;
-    const number = req.params.number;
+    const number = req.body.number;
     DatabaseHelper
         .updateContact(id, number)
         .then(_ => res.status(HTTP_STATUS.NO_CONTENT_SUCCESS).end())
