@@ -16,7 +16,7 @@ class DatabaseHelperBean {
         return ContactModel.findByIdAndDelete(id);
     }
     updateContact(id, number) {
-        return ContactModel.findByIdAndUpdate(id, {
+        return ContactModel.updateOne({ _id: id }, {
             $set: { number }
         })
     }
