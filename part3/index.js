@@ -63,9 +63,12 @@ server.get(`${PREFIX}/persons/:id`, (req, res) => {
 
 server.post(`${PREFIX}/persons`, (req, res, next) => {
     const { name, number } = req.body;
-    if (!name) return raiseError(HTTP_STATUS.UNPROCESSABLE_ENTITY, `No name present`, res);
-    if (!number) return raiseError(HTTP_STATUS.UNPROCESSABLE_ENTITY, `No number present`, res);
-    // if (doesContactAlreadyExist(name)) return raiseError(HTTP_STATUS.UNPROCESSABLE_ENTITY, `Name already exists`, res);
+    if (!name) {
+        throw new Error(`No name present`);
+    }
+    if (!number) {
+        throw new Error(`No number present`);
+    }
 
     DatabaseHelper
         .addContact(name, number)
@@ -89,13 +92,6 @@ server.delete(`${PREFIX}/persons/:id`, (req, res, next) => {
         .then(_ => res.status(HTTP_STATUS.NO_CONTENT_SUCCESS).end())
         .catch(error => next(error))
 })
-
-function raiseError(http_status, error, response) {
-    return response
-        .status(http_status)
-        .json({ error })
-        .end();
-}
 
 server.use(ErrorHandler);
 
