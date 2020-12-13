@@ -1,46 +1,52 @@
-const mongoose = require("mongoose");
-const ContactModel = require("../models/contact");
+const mongoose = require("mongoose")
+const ContactModel = require("../models/contact")
 
-class DatabaseHelperBean {
-    getAllContacts() {
-        return ContactModel.find({});
+class DatabaseHelper {
+    static getAllContacts() {
+        return ContactModel.find({})
     }
-    getTotalContacts() {
+
+    static getTotalContacts() {
         return ContactModel.countDocuments({})
     }
-    getContact(id) {
-        return ContactModel.findOne({ _id: id });
+
+    static getContact(id) {
+        return ContactModel.findOne({ _id: id })
     }
-    addContact(name, number) {
+
+    static addContact(name, number) {
         const newContact = new ContactModel({
             name,
-            number
+            number,
         })
-        return newContact.save();
+        return newContact.save()
     }
-    deleteContact(id) {
-        return ContactModel.deleteOne({ _id: id });
+
+    static deleteContact(id) {
+        return ContactModel.deleteOne({ _id: id })
     }
-    updateContact(id, number) {
+
+    static updateContact(id, number) {
         return ContactModel.updateOne(
             { _id: id },
             { $set: { number } },
-            { runValidators: true }
+            { runValidators: true },
         )
     }
-    connectToDatabase() {
-        const url = process.env.MONGODB_URI;
+
+    static connectToDatabase() {
+        const url = process.env.MONGODB_URI
         mongoose
             .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
             .then(console.log("Connected to database"))
-            .catch(error => console.log('error', error));
+            .catch((error) => console.log("error", error))
     }
-    disconnectFromDatabase() {
+
+    static disconnectFromDatabase() {
         mongoose.connection
             .close()
-            .then(console.log("Disconnected from database"));
+            .then(console.log("Disconnected from database"))
     }
 }
 
-
-module.exports = new DatabaseHelperBean();
+module.exports = DatabaseHelper
