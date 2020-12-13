@@ -40,7 +40,7 @@ const App = () => {
                         .concat(updatedPerson))
                     )
                     .then(_ => notify('success', `Updated ${updatedPerson.name}'s contact`))
-                    .catch(error => notify('error', error));
+                    .catch(error => notify('error', error.response.data.error));
             }
             return;
         }
@@ -49,7 +49,9 @@ const App = () => {
             .postPerson(newPerson)
             .then(_ => setPersons(persons.concat(newPerson)))
             .then(_ => notify('success', `Added ${newPerson.name}'s contact`))
-            .catch(error => notify('error', error))
+            .catch(error => {
+                notify('error', error.response.data.error)
+            })
         setNewName('');
         setNewNumber('');
     }
