@@ -1,100 +1,98 @@
-const express = require('express');
-const morgan = require('morgan');
-require('dotenv').config();
-const DatabaseHelper = require('./services/DatabaseHelper');
-const HTTP_STATUS = require('./constants/HTTP_STATUS');
-const ErrorHandler = require('./services/ErrorHandler');
+const express = require("express")
+const morgan = require("morgan")
+require("dotenv").config()
+const DatabaseHelper = require("./services/DatabaseHelper")
+const HTTP_STATUS = require("./constants/HTTP_STATUS")
+const ErrorHandler = require("./services/ErrorHandler")
 
 const PORT = process.env.PORT || 3001
-const PREFIX = `/api`;
+const PREFIX = "/api"
 
-const server = express();
+const server = express()
 
-server.use(express.static('build'))
+server.use(express.static("build"))
 
-server.use(express.json());
-server.use(morgan(function (tokens, req, res) {
-    return [
-        tokens.method(req, res),
-        tokens.url(req, res),
-        tokens.status(req, res),
-        tokens.res(req, res, 'content-length'), '-',
-        tokens['response-time'](req, res), 'ms',
-        JSON.stringify(req.body),
-    ].join(' ')
-}));
+server.use(express.json())
+server.use(morgan((tokens, req, res) => [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, "content-length"), "-",
+    tokens["response-time"](req, res), "ms",
+    JSON.stringify(req.body),
+].join(" ")))
 
-DatabaseHelper.connectToDatabase();
+DatabaseHelper.connectToDatabase()
 
-server.get(`/info`, (req, res) => {
+server.get("/info", (req, res, next) => {
     DatabaseHelper
         .getTotalContacts()
-        .then(count => {
+        .then((count) => {
             res.send(`
             Phonebook contains ${count} contacts. <br/><br/>
             ${new Date()}
-        `);
+        `)
         })
-        .catch(error => next(error))
+        .catch((error) => next(error))
 })
 
-server.get(`${PREFIX}/persons`, (req, res) => {
+server.get(`${PREFIX}/persons`, (req, res, next) => {
     DatabaseHelper
         .getAllContacts()
-        .then(contacts => {
-            res.json(contacts);
+        .then((contacts) => {
+            res.json(contacts)
         })
-        .catch(error => next(error))
+        .catch((error) => next(error))
 })
 
-server.get(`${PREFIX}/persons/:id`, (req, res) => {
-    const id = req.params.id;
+server.get(`${PREFIX}/persons/:id`, (req, res, next) => {
+    const { id } = req.params
     DatabaseHelper
         .getContact(id)
-        .then(contact => {
+        .then((contact) => {
             if (contact) {
-                res.json(contact);
+                res.json(contact)
             } else {
-                res.status(HTTP_STATUS.NOT_FOUND).end();
+                res.status(HTTP_STATUS.NOT_FOUND).end()
             }
         })
-        .catch(error => next(error))
+        .catch((error) => next(error))
 })
 
 server.post(`${PREFIX}/persons`, (req, res, next) => {
-    const { name, number } = req.body;
+    const { name, number } = req.body
     if (!name) {
-        throw new Error(`No name present`);
+        throw new Error("No name present")
     }
     if (!number) {
-        throw new Error(`No number present`);
+        throw new Error("No number present")
     }
 
     DatabaseHelper
         .addContact(name, number)
-        .then(_ => res.status(HTTP_STATUS.CREATED).end())
-        .catch(error => next(error))
+        .then(() => res.status(HTTP_STATUS.CREATED).end())
+        .catch((error) => next(error))
 })
 
 server.put(`${PREFIX}/persons/:id`, (req, res, next) => {
-    const id = req.params.id;
-    const number = req.body.number;
+    const { id } = req.params
+    const { number } = req.body
     DatabaseHelper
         .updateContact(id, number)
-        .then(_ => res.status(HTTP_STATUS.NO_CONTENT_SUCCESS).end())
-        .catch(error => next(error))
+        .then(() => res.status(HTTP_STATUS.NO_CONTENT_SUCCESS).end())
+        .catch((error) => next(error))
 })
 
 server.delete(`${PREFIX}/persons/:id`, (req, res, next) => {
-    const id = req.params.id;
+    const { id } = req.params
     DatabaseHelper
         .deleteContact(id)
-        .then(_ => res.status(HTTP_STATUS.NO_CONTENT_SUCCESS).end())
-        .catch(error => next(error))
+        .then(() => res.status(HTTP_STATUS.NO_CONTENT_SUCCESS).end())
+        .catch((error) => next(error))
 })
 
-server.use(ErrorHandler);
+server.use(ErrorHandler)
 
 server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}...`);
+    console.log(`Server running on port ${PORT}...`)
 })

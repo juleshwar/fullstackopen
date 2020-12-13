@@ -10,7 +10,8 @@
     "build:ui": "rm -rf build && cd ../part2/phonebook && npm run build --production && cp -r build ../../part3/",
     "deploy": "git push heroku master",
     "deploy:full": "npm run build:ui && git add . && git commit -m 'UI build' --allow-empty && npm run deploy",
-    "logs:prod": "heroku logs --tail"
+    "logs:prod": "heroku logs --tail",
+    "lint": "eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,12 @@
   },
   "homepage": "https://github.com/juleshwar/fullstackopen#readme",
   "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.0.0",
     "nodemon": "^2.0.4"
   },
   "dependencies": {
