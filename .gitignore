@@ -1,2 +1,3 @@
-part3/.env
-part3/build
+*/.env
+*/build
+*/*/node_modules
