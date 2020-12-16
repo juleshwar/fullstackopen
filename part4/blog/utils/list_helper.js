@@ -2,7 +2,7 @@ const dummy = (blogs) => {
     return 1;
 }
 
-const totalLikes = (blogList) => {
+const getTotalLikes = (blogList) => {
     if (!blogList.length) {
         return 0
     }
@@ -15,5 +15,5 @@ const totalLikes = (blogList) => {
 
 module.exports = {
     dummy,
-    totalLikes
+    getTotalLikes
 }
