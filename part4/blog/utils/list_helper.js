@@ -1,3 +1,5 @@
+const _ = require("lodash");
+
 const dummy = (blogs) => {
     return 1;
 }
@@ -36,8 +38,39 @@ const getFavoriteBlog = (blogList) => {
     }
 }
 
+const getAuthorWithMostBlogs = (blogList) => {
+    const blogsMap = _.transform(blogList, (res, n) => {
+        if (res[n.author] === undefined) {
+            res[n.author] = {
+                author: n.author,
+                blogs: 1
+            };
+        } else {
+            res[n.author].blogs++;
+        }
+    }, {})
+    return _.orderBy(blogsMap, 'blogs', 'desc')[0];
+}
+
+const getAuthorWithMostLikes = (blogList) => {
+    const likesMap = _.transform(blogList, (res, n) => {
+        if (res[n.author] === undefined) {
+            res[n.author] = {
+                author: n.author,
+                likes: n.likes
+            };
+        } else {
+            res[n.author].likes = res[n.author].likes + n.likes;
+        }
+    }, {})
+    return _.orderBy(likesMap, 'likes', 'desc')[0];
+}
+
+
 module.exports = {
     dummy,
     getTotalLikes,
-    getFavoriteBlog
+    getFavoriteBlog,
+    getAuthorWithMostBlogs,
+    getAuthorWithMostLikes
 }
