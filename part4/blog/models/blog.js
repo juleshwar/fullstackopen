@@ -4,7 +4,7 @@ const blogSchema = new mongoose.Schema({
     title: String,
     author: String,
     url: String,
-    upvotes: Number
+    likes: Number
 })
 
 //#region Util functions
