@@ -29,6 +29,12 @@ describe('should test if the CRUD APIs work properly', () => {
         const blogs = blogsResponse.body;
         expect(blogs[0].id).toBeDefined();
     });
+
+    test('should ensure a blog gets saved in the database', async () => {
+        const newBlog = { title: "Angular patterns", author: "Jackie Chan", url: "https://angularpatterns.com/", likes: 1 };
+        const postResponse = await new Blog(newBlog).save();
+        expect(postResponse.toJSON()).toMatchObject(newBlog);
+    });
 })
 
 afterAll(() => {
