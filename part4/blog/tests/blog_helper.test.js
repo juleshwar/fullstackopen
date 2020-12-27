@@ -35,6 +35,12 @@ describe('should test if the CRUD APIs work properly', () => {
         const postResponse = await new Blog(newBlog).save();
         expect(postResponse.toJSON()).toMatchObject(newBlog);
     });
+
+    test('should ensure the default likes for a blog is 0', async () => {
+        const newBlog = { title: "Angular patterns", author: "Jackie Chan", url: "https://angularpatterns.com/" };
+        const postResponse = await new Blog(newBlog).save();
+        expect(postResponse.toJSON().likes).toBe(0);
+    });
 })
 
 afterAll(() => {
