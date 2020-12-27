@@ -23,6 +23,12 @@ describe('should test if the CRUD APIs work properly', () => {
         const blogsResponse = await testApp.get('/api/blogs/');
         expect(blogsResponse.body.length).toEqual(INITIAL_BLOGS.length);
     });
+
+    test('should check if the unique identifier for a blog is named "id"', async () => {
+        const blogsResponse = await testApp.get('/api/blogs/');
+        const blogs = blogsResponse.body;
+        expect(blogs[0].id).toBeDefined();
+    });
 })
 
 afterAll(() => {
