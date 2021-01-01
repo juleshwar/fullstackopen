@@ -4,8 +4,9 @@ const Blog = require("../models/blog");
 const mongoose = require("mongoose");
 
 const testApp = supertest(app);
+const TEST_ID = "1fef3e07f82edf40fde49083";
 
-const INITIAL_BLOGS = [{ title: "React patterns", author: "Michael Chan", url: "https://reactpatterns.com/", likes: 7 }, { title: "Go To Statement Considered Harmful", author: "Edsger W. Dijkstra", url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html", likes: 5 }]
+const INITIAL_BLOGS = [{ _id: TEST_ID, title: "React patterns", author: "Michael Chan", url: "https://reactpatterns.com/", likes: 7 }, { title: "Go To Statement Considered Harmful", author: "Edsger W. Dijkstra", url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html", likes: 5 }]
 
 beforeEach(async () => {
     /* deleting all blogs */
@@ -46,6 +47,18 @@ describe('should test if the CRUD APIs work properly', () => {
         const newBlog = { title: "Angular patterns", author: "Jackie Chan" };
         const postResponse = await testApp.post('/api/blogs/').send(newBlog);
         await expect(postResponse.status).toBe(403)
+    });
+
+    test('should successfully delete a blog post', async () => {
+        const allBlogs = await testApp.get('/api/blogs');
+
+        await testApp
+            .delete(`/api/blogs/${TEST_ID}`)
+            .expect(204)
+
+        expect(allBlogs.body).not.toContain(
+            INITIAL_BLOGS[0]
+        )
     });
 })
 
