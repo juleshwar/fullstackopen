@@ -29,7 +29,6 @@ blogsRouter.post('/', (request, response, next) => {
 
 blogsRouter.delete('/:id', (request, response, next) => {
     const { id } = request.params;
-    console.log('id', id);
     return Blog
         .deleteOne({ _id: id })
         .then(_ => {
