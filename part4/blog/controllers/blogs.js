@@ -27,4 +27,15 @@ blogsRouter.post('/', (request, response, next) => {
         .catch(e => next(e))
 })
 
+blogsRouter.delete('/:id', (request, response, next) => {
+    const { id } = request.params;
+    console.log('id', id);
+    return Blog
+        .deleteOne({ _id: id })
+        .then(_ => {
+            response.sendStatus(204);
+        })
+        .catch(e => next(e));
+})
+
 module.exports = blogsRouter;
