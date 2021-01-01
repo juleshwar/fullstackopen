@@ -12,6 +12,13 @@ blogsRouter.get('/', (request, response, next) => {
 
 blogsRouter.post('/', (request, response, next) => {
     const blog = new Blog(request.body)
+    const { url, title } = blog;
+    if (!title) {
+        throw new Error("No title present")
+    }
+    if (!url) {
+        throw new Error("No url present")
+    }
     return blog
         .save()
         .then(result => {

@@ -41,6 +41,12 @@ describe('should test if the CRUD APIs work properly', () => {
         const postResponse = await testApp.post('/api/blogs/').send(newBlog);
         expect(postResponse.body.likes).toBe(0);
     });
+
+    test.only('should require the blog to have title and url properties', async () => {
+        const newBlog = { title: "Angular patterns", author: "Jackie Chan" };
+        const postResponse = await testApp.post('/api/blogs/').send(newBlog);
+        await expect(postResponse.status).toBe(403)
+    });
 })
 
 afterAll(() => {
